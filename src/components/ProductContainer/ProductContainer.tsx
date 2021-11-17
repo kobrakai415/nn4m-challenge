@@ -1,4 +1,6 @@
 import React from 'react';
+import { Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 interface Props {
     product: Product
@@ -7,12 +9,15 @@ const ProductContainer = ({ product }: Props) => {
 
     return (
 
-        <div>
-            <h3>{product.name}</h3>
-            <img src={product.altImage} alt="product-image" />
-            <span>£{product.cost}</span>
-            <h4>{product.prodid}</h4>
-        </div>
+        <Col md={4}>
+            <Link className="no-decoration" to={`/product/${product.prodid}`}>
+                <div className="p-3 product-thumbnail">
+                    <img height="85%" width="100%" src={product.altImage} alt="product" />
+                    <h6>{product.name}</h6>
+                    <strong>£{product.cost}</strong>
+                </div>
+            </Link>
+        </Col>
     )
 }
 

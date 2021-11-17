@@ -1,14 +1,17 @@
 import React from 'react';
-import { Col } from 'react-bootstrap';
+import { useParams } from 'react-router';
 
-const ProductPage = ({ }) => {
+const ProductPage = () => {
 
+    const { productId } = useParams<{ productId: string }>()
 
     return (
         <>
-            <Col xs={12}>
-                ProductPage
-            </Col >
+
+            <div className="d-flex justify-content-center align-items-center">
+                <img src={`http://riverisland.scene7.com/is/image/RiverIsland/${productId}_main`} alt="product" />
+            </div>
+
         </>
     )
 }

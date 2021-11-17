@@ -1,0 +1,56 @@
+.App {
+  background-color: #f3f9ff;
+}
+
+.no-decoration {
+  text-decoration: none !important;
+  color: rgb(36, 36, 36);
+}
+.no-decoration:hover {
+  text-decoration: none !important;
+  color: rgb(36, 36, 36);
+}
+
+#search-bar {
+  border-radius: 500px;
+  height: 40px;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding: 6px 48px;
+}
+
+#search-bar-parent {
+  position: relative;
+}
+.search-bar-glass {
+  position: absolute;
+  left: 17px;
+  top: 8px;
+  color: black;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.infinite-scroll-component {
+  overflow: visible !important;
+}
+
+.my-navbar {
+  background: rgb(52, 87, 254);
+  background: linear-gradient(
+    112deg,
+    rgb(255, 255, 255) 16%,
+    rgb(51, 48, 48) 100%
+  );
+  border-bottom: 1px rgb(179, 179, 179);
+  box-shadow: 0px 4px 4px rgb(160, 160, 160);
+}
+
+.my-navbar img:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}

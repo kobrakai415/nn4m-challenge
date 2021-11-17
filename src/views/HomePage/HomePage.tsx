@@ -1,65 +1,71 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Col } from 'react-bootstrap';
-import ProductContainer from '../../components/ProductContainer/ProductContainer';
-import InfiniteScroll from "react-infinite-scroll-component";
+import SearchBar from '../../components/SearchBar/SearchBar';
+import Products from '../../components/Products/Products';
+import FilteredProducts from '../../components/FilteredProducts/FilteredProducts'
 
-const HomePage = ({ }) => {
+const HomePage = () => {
     const [products, setProducts] = useState<Product[] | []>([])
-    const [productsToDisplay, setProductsToDisplay] = useState<Product[] | []>([])
-    const [hasMore, setHasMore] = useState(true)
+    const [filteredProducts, setFilteredProducts] = useState<Product[] | []>([])
+
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
 
+    const [query, setQuery] = useState("")
 
+    // load all products from api - there is no option for pagination
     useEffect(() => {
         fetchProducts()
     }, [])
 
+    // filter products on search 
+    useEffect(() => {
+
+        // matching products found
+        const filteredProducts = products.filter(product => product.name.toLowerCase().includes(query))
+        setFilteredProducts(filteredProducts)
+    }, [query])
+
+    // load products function
     const fetchProducts = async () => {
         try {
             setLoading(true)
             const response = await fetch(`https://thingproxy.freeboard.io/fetch/https://static-r2.ristack-3.nn4maws.net/v1/plp/en_gb/2506/products.json`)
-            console.log(response)
 
             if (response.status === 200) {
                 const { Products } = await response.json()
-                console.log(Products)
                 setProducts(Products)
-                setProductsToDisplay(Products.slice(0, 10))
                 setLoading(false)
             }
         } catch (error) {
-            console.log(error)
+            setLoading(false)
             setError(true)
         }
     }
 
-    const loadMoreProducts = () => {
-        console.log("load more initiated")
-        if (productsToDisplay.length === products.length) setHasMore(false)
-
-        const nextTenProducts = products.slice(productsToDisplay.length, productsToDisplay.length + 10)
-        console.log(nextTenProducts)
-        setProductsToDisplay([...productsToDisplay, ...nextTenProducts])
-    }
 
     return (
         <>
-            <Col xs={12}>
-                <InfiniteScroll
-                    dataLength={productsToDisplay.length}
-                    next={() => loadMoreProducts()}
-                    hasMore={hasMore}
-                    loader={<h4>Loading...</h4>}
-                    endMessage={
-                        <p style={{ textAlign: "center" }}>
-                            <b>Yay! You have seen it all</b>
-                        </p>
-                    }
-                >
-                    {productsToDisplay.length > 0 ?
-                        productsToDisplay.map(product => <ProductContainer key={product.prodid} product={product} />) : null}
-                </InfiniteScroll>
+            <Col className="position-relative">
+
+                <SearchBar query={query} setQuery={setQuery} />
+
+                {query.length === 0 ?
+                    <Products products={products} />
+                    : null}
+
+
+                {filteredProducts.length > 0 && query.length > 0 ?
+                    <FilteredProducts filteredProducts={filteredProducts} />
+                    : null}
+
+                {query.length > 0 && filteredProducts.length === 0 ?
+                    <h3>No products were found, please search for another product!</h3>
+                    : null}
+
+                {error ? <h3 className="centered">An Error has occured, please try again!</h3> : null}
+
+                {loading ? <img className="centered" src="/spinner.svg" height={300} width={300} alt="loading" /> : null}
             </Col >
         </>
     )
