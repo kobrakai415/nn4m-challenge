@@ -8,6 +8,9 @@ import ProductPage from './views/ProductPage/ProductPage';
 import Navbar from './components/Navbar/Navbar';
 
 function App() {
+
+
+
   return (
     <div className="App">
       <Router>

@@ -50,8 +50,8 @@ const HomePage = () => {
 
                 <SearchBar query={query} setQuery={setQuery} />
 
-                {query.length === 0 ?
-                    <Products products={products} />
+                {query.length === 0 && products.length > 0 ?
+                    <Products products={products} setProducts={setProducts}/>
                     : null}
 
 

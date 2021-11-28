@@ -12,7 +12,7 @@ const ProductContainer = ({ product }: Props) => {
         <Col md={4}>
             <Link className="no-decoration" to={`/product/${product.prodid}`}>
                 <div className="p-3 product-thumbnail">
-                    <img height="85%" width="100%" src={product.altImage} alt="product" />
+                    <img height="85%" width="100%" src={product.allImages[0]} alt="product" />
                     <h6>{product.name}</h6>
                     <strong>£{product.cost}</strong>
                 </div>
